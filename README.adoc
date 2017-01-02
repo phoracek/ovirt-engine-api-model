@@ -1,5 +1,7 @@
 = oVirt Engine API Model
 
+http://blog.phoracek.cz/ovirt-engine-api-model/
+
 == Introduction
 
 This project contains the specification of the oVirt Engine API, also

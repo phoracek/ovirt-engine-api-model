@@ -1,0 +1,30 @@
+language: java
+jdk:
+  - oraclejdk8
+
+branches:
+  only:
+    - master
+
+addons:
+  apt:
+    packages:
+      - publican
+      - python-lxml
+
+after_success:
+  - git config --global user.email "phoracek@redhat.com"
+  - git config --global user.name "Petr Horacek"
+  - COMMIT=$(git log --format="%H" -n 1)
+  - mkdir gh-pages
+  - cp target/generated-html/model.html gh-pages/index.html
+  - cd gh-pages
+  - git init
+  - git add index.html
+  - git commit -m "gh-pages ${COMMIT}"
+  - git remote add origin https://phoracek:${GH_TOKEN}@github.com/phoracek/ovirt-engine-api-model.git
+  - git push -f origin HEAD:gh-pages
+
+env:
+  global:
+    secure: W0QJ3rGPNfBH1YXYLA7CxOq4klR+9sh0vTprFVu7ewW6vgJlJr0r3iQVTy/19EIhcCG5VewLosAp4SmHzKhkXHsmcNKJ0bi5cJR8OQzL+BurMBteP/wpTiS7X0UhFuz3hbfutY1gDuzDaHrbEUZdqQRsZf1ou/CzVTVXGtWNEWKNuA4CzCpDkgDfYby674DIQDFviM5EbxutqdsncYqRFO3yGAm+RK1Y2kBFnWNS9ZA+jXTiUr/GiMZuwWq1wjnM4SlHk4ViRETCWxfPIU5ou6KAYRYT3YUNjTDRlyP6lA4gzyaGXeQqz3R3Hr0DOc2hEKV2xh1v9Ubz7LjlIrUkHJGjSViv2E+QSV8VM4VpBwrvUR2px77ft5vv45hPiBSoFI3gNRq8YairPaAyaCy0GZ0DMoPzljZrAPI6LjI6ThcmlRvYyoPwOKP3DRk3XfEIt4bEHfZ+Y180yuFcgaWFN0GW8hiqdsBgzBvQG+Vh/ur/VIdaj63ubhomZpQ6S957r8v5BtM/dbNSOktfb9SzNN7mKUlQhmETFog2e4Z0pL4nQfqMhjCH/6Brx6t2PLtcTUPOZMatYfFk4rIUUxdBiCQKsJrosPTgReWt4cejqNaumBzPhrAETf0GkdPRU0lPPNpP9BOBqrcqhKWWhQ3quNlgEgZECelaxjZpLZ2c/bs=
